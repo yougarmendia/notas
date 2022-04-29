@@ -18,5 +18,6 @@ healthRoutes.get('/info', controller.info)
 
 healthRoutes.get('/ping', controller.ping)
 
-/* Ahora indicamos cómo podrá ser importado */
+/* Ahora indicamos cómo podrá ser referenciado
+para importación */
 export default healthRoutes
