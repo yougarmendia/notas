@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es2016", /* Transpilará a ECMAScript 7. */
+    /* Así podemos trabajar con la última versión de TS, pero, al final, transpilará a un versión compatible de JS */
+    "experimentalDecorators": true, 
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+/* 
+
+Existen 2 tipos de módulos:
+1) CommonJS (es el 'require' que es ALTAMENTE compatible con Node)
+2) ECMAScript modules
+
+*/
+
+    "declaration": false, /* Archivo de declaración. Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "outDir": "./dist", /* Es la carpeta en dónde se producirá nuestro código de JS, en donde quedará todo nuestro código para producción */
+    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
+    "forceConsistentCasingInFileNames": true, /* Salva de los imports malos */
+    "strict": true, /* IMPORTANTE */
+    "noImplicitAny": true, /* Enable error reporting for expressions and declarations with an implied `any` type.. */
+    "strictPropertyInitialization": true, /* Check for class properties that are declared but not set in the constructor. */
+    "noImplicitThis": true, /* Enable error reporting when `this` is given the type `any`. */
+    "useUnknownInCatchVariables": false, /* Type catch clause variables as 'unknown' instead of 'any'. */
+    "noUnusedLocals": true, /* Enable error reporting when a local variables aren't read. */
+    "noUnusedParameters": true, /* Raise an error when a function parameter isn't read */
+    "noImplicitReturns": true, /* Enable error reporting for codepaths that do not explicitly return in a function. */
+  },
+  "typeRoots": [
+    "src/@types", /* Acá declararemos algunas definiciones especiales de tipos que necesitaremos */
+    "node_modules/@types" /* Donde guardarás los tipos de JS para usar algunas librerías */
+  ],
+}
