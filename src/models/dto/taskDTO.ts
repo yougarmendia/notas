@@ -11,10 +11,34 @@ en el UPDATE todos los datos son OPCIONALES, en el
 CREATE son obligatorios y en la respuesta también
 son todos las keys obligatorias */
 
-export interface BaseTaskDTO {
+/* La base base no la exportamos para mayor seguridad */
+interface BaseTaskDTO {
   id?: number
   title: string
   content: string
   done: string
   userId: string 
 }
+
+/* La que sigue, TaskDTO es la base que modelará
+la RESPUESTA de la API */
+export interface TaskDTO extends BaseTaskDTO {
+  id: number
+  userId: number | null
+}
+
+/* Ahora el contrato para la creación de una task */
+export interface CreateTaskDTO extends BaseTaskDTO {
+  /* Ya está completa porque es exactamente
+  igual a la BaseTaskDTO, igual sirve tenerla
+  por si en el futuro queremos extender esta interface */
+}
+
+export interface UpdateTaskDTO extends Partial<BaseTaskDTO>{
+  /* Partial cambia la obligación de los atributos (keys)
+  que tiene BaseTaskDTO de obligatorias a NO obligatorias
+  , o sea, no hay que estar pasándolas todas */
+}
+
+
+/* En el fondo es crear un contrato para cada acto del CRUD. */
