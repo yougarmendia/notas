@@ -1,18 +1,28 @@
-generator client{
-  provider        ="prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+// Esto es para trabajar con planetScale en particular
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"] 
 }
+// Hasta acá es siempre estánda para planetScale
+
 
 datasource db {
-  provider        ="mysql"
-  url             =env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model task {
-  id Int @id @default(autoincrement())
-  title String @db.VarChar(60)
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(60)
   content String @db.VarChar(255)
-  done String @db.VarChar(1)
-  userId Int?
+  done    String @db.VarChar(1)
+  userId  Int?
+
+  @@map("tasks") // Acá le ponemos/cambiamos el nombre a la tabla
 }
+
+// Recordar que las bases de datos tienen null || valor, no tiene undefined
+// npx ejecuta algo y si no está, lo decarga
+// npx prisma db push
+// npx prisma generate para generar nuestros  

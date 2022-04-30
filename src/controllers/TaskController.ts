@@ -1,19 +1,14 @@
+import { PrismaClient } from "@prisma/client"
 import { Request, Response } from "express"
 import { CreateTaskDTO, TaskDTO, UpdateTaskDTO } from "../models/dto/taskDTO"
 import { createTaskSchema, updateTaskSchema } from "../models/validators/taskSchemas"
 
+const prisma = new PrismaClient()
+
 export default class TaskController {
   public readonly getAll = async (_req: Request, res: Response) => {
     /* Respondemos con un DTO */
-    const tasks: TaskDTO[] = [
-      {
-      id: 1,
-      title: 'Estudiar NodeJS',
-      content: 'Estudiar, estudiar, estudiar',
-      done: 'true',
-      userId: 1 
-      }
-    ]
+    const tasks: TaskDTO[] = await prisma.task.findMany() /* Esto me trae un task basado en el esquema */
     res.json(tasks)
   }
 
