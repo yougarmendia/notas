@@ -1,0 +1,18 @@
+generator client{
+  provider        ="prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider        ="mysql"
+  url             =env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model task {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(60)
+  content String @db.VarChar(255)
+  done String @db.VarChar(1)
+  userId Int?
+}

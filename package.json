@@ -13,6 +13,7 @@
   "author": "You Garmendia",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.13.0",
     "dotenv": "^16.0.0",
     "express": "^4.18.0",
     "joi": "^17.6.0",
@@ -22,6 +23,7 @@
     "@types/express": "^4.17.13",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.30",
+    "prisma": "^3.13.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
   }

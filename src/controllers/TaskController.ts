@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { CreateTaskDTO, TaskDTO, UpdateTaskDTO } from "../models/dto/taskDTO"
+import { createTaskSchema, updateTaskSchema } from "../models/validators/taskSchemas"
 
 export default class TaskController {
   public readonly getAll = async (_req: Request, res: Response) => {
@@ -31,6 +32,15 @@ export default class TaskController {
 
   public readonly create = async (req: Request, res: Response) => {
     const task = req.body as CreateTaskDTO
+
+    try {
+      await createTaskSchema.validateAsync(task)
+    } catch (error) {
+      res.status(400).json({ message: error.message })
+      return
+    }
+
+
     res.json({
       id:1,
       ...task
@@ -42,6 +52,14 @@ export default class TaskController {
   public readonly update = async (req: Request, res: Response) => {
     const { id } = req.params //este id nos llega por la ruta
     const task = req.body as UpdateTaskDTO
+
+    try {
+      await updateTaskSchema.validateAsync(task)
+    } catch (error) {
+      res.status(400).json({ message: error.message })
+      return
+    }
+
     console.log('Esto edita el', id, task)
     res.sendStatus(204)
   }
