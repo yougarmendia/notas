@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import taskRoutes from './taskRoutes'
 /* En este archivo juntaremos todas las rutas que estén
 separadas, así sólo tendremos que importar éste en 
 el documento que lo necesite:
@@ -14,5 +15,16 @@ apiRoutes.use('/', healthRoutes)
 /*  apiRoutes (que es el alias del router de Express)
 está mandando TODAS LAS RUTAS QUE PASEN POR 
 LA RAIZ al controlador ./healtRoutes.ts */
+
+/* Al siguiente (las rutas de tasks) le colocamos la ruta /tasks antes para que se activen los controladores CRUD cuando escriba /tasks/post + la acción
+
+ej: 
+http://localhost:4000/api/v1/tasks y será llamar a getAll()
+
+http://localhost:4000/api/v1/tasks/5 
+
+
+*/
+apiRoutes.use('/tasks', taskRoutes)
 
 export default apiRoutes

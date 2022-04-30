@@ -17,7 +17,6 @@ interface BaseTaskDTO {
   title: string
   content: string
   done: string
-  userId: string 
 }
 
 /* La que sigue, TaskDTO es la base que modelará
