@@ -16,7 +16,7 @@ model task {
   id      Int    @id @default(autoincrement())
   title   String @db.VarChar(60)
   content String @db.VarChar(255)
-  done    String @db.VarChar(1)
+  done    Boolean 
   userId  Int?
 
   @@map("tasks") // Acá le ponemos/cambiamos el nombre a la tabla

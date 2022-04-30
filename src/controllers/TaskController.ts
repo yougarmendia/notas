@@ -1,27 +1,29 @@
-import { PrismaClient } from "@prisma/client"
 import { Request, Response } from "express"
 import { CreateTaskDTO, TaskDTO, UpdateTaskDTO } from "../models/dto/taskDTO"
+import TaskRepository from "../models/repositories/TaskRepository"
 import { createTaskSchema, updateTaskSchema } from "../models/validators/taskSchemas"
-
-const prisma = new PrismaClient()
 
 export default class TaskController {
   public readonly getAll = async (_req: Request, res: Response) => {
     /* Respondemos con un DTO */
-    const tasks: TaskDTO[] = await prisma.task.findMany() /* Esto me trae un task basado en el esquema */
+    const repository = new TaskRepository(1)
+    const tasks: TaskDTO[] = await repository.findAll() /* Esto me trae un task basado en el esquema */
+
     res.json(tasks)
   }
 
 
   public readonly getById = async (req: Request, res: Response ) => {
     const { id } = req.params
-    const task: TaskDTO = {
-      id: parseInt(id),
-      title: 'Estudiar NodeJS',
-      content: 'Estudiar, estudiar, estudiar',
-      done: 'true',
-      userId: 1 
+    const repository = new TaskRepository(1)
+    const task = await repository.findById(parseInt(id))
+
+    if(!task){
+      res.status(404).json({message: 'Nota no encontrada'})
+      return /* Siempre retornar el primero si hay 2 res seguidos
+      para que se detenga */
     }
+
     res.json(task)
   }
 
@@ -35,14 +37,12 @@ export default class TaskController {
       return
     }
 
+    const repository = new TaskRepository(1)
+    const newTask = await repository.create(task)
 
-    res.json({
-      id:1,
-      ...task
-    })
+    res.json(newTask)
   }
 
-/* "...task" copia los valores que trae la constante task y sólo agrega el id:1, este tipo de anotación se llama spread operator */
 
   public readonly update = async (req: Request, res: Response) => {
     const { id } = req.params //este id nos llega por la ruta
@@ -55,13 +55,20 @@ export default class TaskController {
       return
     }
 
-    console.log('Esto edita el', id, task)
+    const repository = new TaskRepository(1)
+
+    await repository.update(parseInt(id),task)
+
     res.sendStatus(204)
   }
 
   public readonly delete = async (req: Request, res: Response) => {
     const { id } = req.params
-    console.log('Esto borra el id número ', id)
+
+    const repository = new TaskRepository(1)
+
+    await repository.delete(parseInt(id))
+
     res.sendStatus(204)
   }
 }
