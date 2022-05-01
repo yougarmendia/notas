@@ -40,5 +40,7 @@ model user {
 // Recordar que las bases de datos tienen null || valor, no tiene undefined
 // npx ejecuta algo y si no está, lo decarga
 // npx prisma db push
-// npx prisma generate para generar nuestros
+// npx prisma generate para generar nuestros clientes
 // npx prisma format (guardar antes de aplicar)
+// npm i @prisma/client para generar el cliente prisma
+// npm i -D prisma para instalar prima como developer

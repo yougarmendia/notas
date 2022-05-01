@@ -49,9 +49,6 @@ export default class UserRepository {
   }
 
 
-
-
-
   public readonly create = async (user:CreateUserDTO): Promise<UserDTO> => {
     const newUser = await prisma.user.create({
       data: user
