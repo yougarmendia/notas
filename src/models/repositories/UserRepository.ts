@@ -19,6 +19,8 @@ export default class UserRepository {
     return usersWithoutPassword
   }
 
+
+  
   public readonly findById = async (id: number): Promise<UserDTO | undefined> => {
     const user = await prisma.user.findUnique({
       // findUnique porque sólo tengo el id
