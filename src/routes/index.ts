@@ -8,6 +8,7 @@ Primero el Router de express y segundo el de HealthRoutes.ts
 */
 
 import healthRoutes from './healthRoutes'
+import authRoutes from './authRoutes'
 
 const apiRoutes = Router()
 
@@ -23,8 +24,8 @@ http://localhost:4000/api/v1/tasks y será llamar a getAll()
 
 http://localhost:4000/api/v1/tasks/5 
 
-
 */
 apiRoutes.use('/tasks', taskRoutes)
+apiRoutes.use('/auth', authRoutes)
 
 export default apiRoutes

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { CreateUserDTO, UserDTO, UpdateUserDTO } from "../dto/userDTO";
+import { CreateUserDTO, UserDTO, UpdateUserDTO, LoginUserDTO } from "../dto/userDTO";
 
 const prisma = new PrismaClient()
 
@@ -27,11 +27,30 @@ export default class UserRepository {
       }
     })
 
+    /* Si el usuario no está, retorna nulo */
     if(!user) return
 
     const { password, ...userWithoutPassword } = user 
     return userWithoutPassword
   }
+
+
+
+  public readonly findByEmail = async (email:string):Promise<LoginUserDTO | undefined> => {
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    if(!user) return
+
+    return user
+  }
+
+
+
+
 
   public readonly create = async (user:CreateUserDTO): Promise<UserDTO> => {
     const newUser = await prisma.user.create({
