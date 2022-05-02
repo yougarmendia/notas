@@ -31,7 +31,7 @@ y su value "no podemos encontrar esa URL" */
 
 app.use((_req, res)=>{
   res.status(404).json({
-    message: "We can't find that URL o(TヘTo)"
+    message: "Discúlpenos, no podemos encontrar ese recurso :( "
   })
 })
 
