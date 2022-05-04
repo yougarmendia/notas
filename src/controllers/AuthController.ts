@@ -1,5 +1,6 @@
 /* Controlador de autenticación */
 import { Request, Response } from "express"
+import { generateToken } from "../lib/jwt"
 import { CreateUserDTO } from "../models/dto/userDTO"
 import UserRepository from "../models/repositories/UserRepository"
 import { loginSchema, registerSchema } from "../models/validators/userSchemas"
@@ -8,6 +9,10 @@ export default class AuthController {
   public readonly login = async (req:Request, res: Response) => {
     const credentials = req.body
     
+
+
+
+    /* En el siguiente try se hace la validación de si es lo que estoy esperando */
     try {
       await loginSchema.validateAsync(credentials)
     } catch (err) {
@@ -16,16 +21,19 @@ export default class AuthController {
       })
       return
     }
-
     const repository = new UserRepository()
 
     const userFromDb = await repository.findByEmail(credentials.email)
 
     if(!userFromDb || userFromDb.password !== credentials.password) {
       res.status(401).json({ message: 'Credenciales inválidas, inténtelo de nuevo por favor'})
+      return
     }
 
-    res.sendStatus(200)
+    const token = generateToken(userFromDb)
+
+
+    res.json({ token })
   }
 
   public readonly register = async (req: Request, res: Response) => {

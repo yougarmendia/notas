@@ -25,7 +25,7 @@ export default class UserRepository {
     const user = await prisma.user.findUnique({
       // findUnique porque sólo tengo el id
       where: {
-        id,
+        id
       }
     })
 
