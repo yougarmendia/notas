@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import TaskController from '../controllers/TaskController'
-
 /* Tenemos un controlador que nos da los métodos CRUD en base a los contratos DTOs, ahora configuramos el Router que gestionará (en base a la ruta que se reciba) qué controlador se activará (y estos, a su vez, por qué DTO se regirá.) */
 
 const taskRoutes = Router()

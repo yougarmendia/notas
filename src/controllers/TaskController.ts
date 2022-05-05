@@ -2,29 +2,42 @@ import { Request, Response } from "express"
 import { CreateTaskDTO, TaskDTO, UpdateTaskDTO } from "../models/dto/taskDTO"
 import TaskRepository from "../models/repositories/TaskRepository"
 import { createTaskSchema, updateTaskSchema } from "../models/validators/taskSchemas"
-
+import { UserTokenPayLoad } from "../models/dto/userDTO"
 export default class TaskController {
-  public readonly getAll = async (_req: Request, res: Response) => {
+  public readonly getAll = async (req: Request, res: Response) => {
     /* Respondemos con un DTO */
-    const repository = new TaskRepository(1)
-    const tasks: TaskDTO[] = await repository.findAll() /* Esto me trae un task basado en el esquema */
+    const user = req.user as UserTokenPayLoad
+    const repository = new TaskRepository(user.sub)
 
-    res.json(tasks)
+
+    try{
+      const tasks: TaskDTO[] = await repository.findAll() /* Esto me trae un task basado en el esquema */
+      res.json(tasks)
+    } catch(error){
+      console.log(error)
+      res.status(500).json({ message: 'Something went wrong' })
+    }
   }
-
 
   public readonly getById = async (req: Request, res: Response ) => {
     const { id } = req.params
-    const repository = new TaskRepository(1)
-    const task = await repository.findById(parseInt(id))
+    const user = req.user as UserTokenPayLoad
+    const repository = new TaskRepository(user.sub)
 
-    if(!task){
-      res.status(404).json({message: 'Nota no encontrada'})
-      return /* Siempre retornar el primero si hay 2 res seguidos
+    try{
+      const task = await repository.findById(parseInt(id))
+
+      if (!task) {
+        res.status(404).json({ message: 'Nota no encontrada' })
+        return /* Siempre retornar el primero si hay 2 res seguidos
       para que se detenga */
+      }
+      res.json(task)
+    } catch(error){
+      res.status(400).json({ message: error.message })
+      return
     }
 
-    res.json(task)
   }
 
   public readonly create = async (req: Request, res: Response) => {
@@ -37,10 +50,21 @@ export default class TaskController {
       return
     }
 
-    const repository = new TaskRepository(1)
-    const newTask = await repository.create(task)
+    const user = req.user as UserTokenPayLoad
+    const repository = new TaskRepository(user.sub)
 
-    res.json(newTask)
+    try {
+      const newTask = await repository.create(task)
+      res.json(newTask)
+    }catch(error) {
+      if (error.code === 'P2002') {
+        res.status(409).json({ message: 'Task already exists' })
+        return
+      }
+      console.log(error)
+      console.log('Error code: ', error.code)
+      res.status(500).json({ message: 'Something went wrong' })
+    }
   }
 
 
@@ -55,21 +79,36 @@ export default class TaskController {
       return
     }
 
-    const repository = new TaskRepository(1)
-
-    await repository.update(parseInt(id),task)
-
-    res.sendStatus(204)
+    const user = req.user as UserTokenPayLoad
+    const repository = new TaskRepository(user.sub)
+    
+    try {
+      await repository.update(parseInt(id), task)
+      res.sendStatus(204)
+    } catch (error) {
+      if (error.code === 'P2002') {
+        res.status(409).json({ message: 'Task already exists' })
+        return
+      }
+      console.log(error)
+      console.log('Error code: ', error.code)
+      res.status(500).json({ message: 'Something went wrong' })
+    }
   }
 
   public readonly delete = async (req: Request, res: Response) => {
     const { id } = req.params
 
-    const repository = new TaskRepository(1)
+    const user = req.user as UserTokenPayLoad
+    const repository = new TaskRepository(user.sub)
 
-    await repository.delete(parseInt(id))
-
-    res.sendStatus(204)
+    try {
+      await repository.delete(parseInt(id))
+      res.sendStatus(204)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Something went wrong' })
+    }
   }
 }
 
