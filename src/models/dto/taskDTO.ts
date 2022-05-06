@@ -36,8 +36,8 @@ export interface CreateTaskDTO extends BaseTaskDTO {
 export interface UpdateTaskDTO extends Partial<BaseTaskDTO>{
   /* Partial cambia la obligación de los atributos (keys)
   que tiene BaseTaskDTO de obligatorias a NO obligatorias
-  , o sea, no hay que estar pasándolas todas */
+  , o sea, no hay que estar pasándolas todas.  */
 }
 
 
-/* En el fondo es crear un contrato para cada acto del CRUD. */
+/* En el fondo es crear un CONTRATO para cada acto del CRUD. */
