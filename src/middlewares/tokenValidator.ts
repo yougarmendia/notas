@@ -13,7 +13,7 @@ export default function tokenValidator() {
     }
     /* Desestructuración de array */
     /* Toma el autheader y sepáralo en dos */
-    const [bearer, token] = authHeader.split('')
+    const [bearer, token] = authHeader.split(' ')
 
     if(bearer !== 'Bearer') {
       res.status(401).json({ message: MISSING_AUTH_MSG})
@@ -25,6 +25,7 @@ export default function tokenValidator() {
       req.user = tokenPayload
     } catch {
       res.status(401).json({ message: MISSING_AUTH_MSG })
+      return
     }
 
     return next()
