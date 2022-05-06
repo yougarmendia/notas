@@ -12,7 +12,7 @@ export default function tokenValidator() {
       return
     }
     /* Desestructuración de array */
-    /* Toma el autheader y sepáralo en dos */
+    /* Toma el autheader y sepáralo en dos partes */
     const [bearer, token] = authHeader.split(' ')
 
     if(bearer !== 'Bearer') {
